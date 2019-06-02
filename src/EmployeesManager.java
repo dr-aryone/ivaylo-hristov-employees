@@ -20,9 +20,9 @@ public class EmployeesManager {
 
 
     private void loadEmployeesData(String filePath) {
-        try (Scanner scanner = new Scanner(new BufferedReader(new FileReader(filePath)))) {
-            while (scanner.hasNextLine()) {
-                String input = scanner.nextLine();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String input;
+            while ((input = reader.readLine()) != null) {
                 String[] data = input.split(", ");
                 int employeeID = Integer.parseInt(data[0]);
                 int projectID = Integer.parseInt(data[1]);
@@ -54,7 +54,7 @@ public class EmployeesManager {
             for(EmployeeData employeeData : employeesData) {
                 if(employeeData.getEmployeeID() == employee.getId()) { // If id matches
                     int projectId = employeeData.getProjectID();
-                    long workDays = 0;
+                    long workDays;
                     // If project exist sum the days
                     if(employee.getWorkTimeOnProjects().containsKey(projectId)) {
                         workDays = employee.getWorkTimeOnProjects().get(projectId);
@@ -116,7 +116,7 @@ public class EmployeesManager {
                     // If they worked on same project
                     if(two.getWorkTimeOnProjects().containsKey(oneProject.getKey())) {
                         Partnership partnership = new Partnership(one.getId(), two.getId());
-                        long totalDays = 0;
+                        long totalDays;
                         long oneDays = oneProject.getValue();
                         long twoDays = two.getWorkTimeOnProjects().get(oneProject.getKey());
 
